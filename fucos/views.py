@@ -11,6 +11,7 @@ from fucos.models import *
 def index(request):
     videos = getVideos()
     # print(videos)
-    return render(request,'index.html',{'videos':videos})
+    showNum = int(SysOptions.objects.get(option_key='showNum').option_value)
+    return render(request,'index.html',{'videos':videos,'showNum':showNum})
 
 

@@ -16,3 +16,14 @@ class FocusActor(models.Model):
     class Meta:
         managed = False
         db_table = 'focus_actor'
+
+
+class SysOptions(models.Model):
+    id = models.IntegerField(primary_key=True)
+    option_key = models.CharField(max_length=30)
+    option_value = models.CharField(max_length=200, blank=True, null=True)
+    comment = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sys_options'
