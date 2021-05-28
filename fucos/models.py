@@ -7,20 +7,11 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-class Userinfo(models.Model):
-    id = models.CharField(primary_key=True, max_length=10)
-    name = models.CharField(max_length=20)
-    pwd = models.CharField(max_length=20)
-
-class info(models.Model):
-    id = models.CharField(primary_key=True, max_length=10)
-    name = models.CharField(max_length=20)
-    pwd = models.CharField(max_length=20)
-
 class FocusActor(models.Model):
     id = models.IntegerField(primary_key=True)
     actor_id = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
+    sort_no = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
