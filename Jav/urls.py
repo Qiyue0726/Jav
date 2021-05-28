@@ -16,10 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from api.views import index
+from fucos.views import index
 
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls'))
+    path('api/', include('fucos.urls'))
 ]

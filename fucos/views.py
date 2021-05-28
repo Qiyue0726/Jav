@@ -4,8 +4,8 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 
 # Create your views here.
-from api.functions.resource import getVideos
-from api.models import *
+from fucos.functions.resource import getVideos
+from fucos.models import *
 
 
 def getUser(request):

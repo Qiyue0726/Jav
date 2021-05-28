@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from api import views
+from fucos import views
 
 urlpatterns = [
     path('toLogin', views.toLogin),
