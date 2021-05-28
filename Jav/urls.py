@@ -21,5 +21,5 @@ from fucos.views import index
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
-    path('api/', include('fucos.urls'))
+    path('fucos/', include('fucos.urls'))
 ]
