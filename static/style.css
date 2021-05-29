@@ -7137,3 +7137,10 @@ ul.list-v >li>a:hover {
     bottom: 45%;
     right: 2%;
 }
+.popup {
+    width: 450px;
+    height: 300px;
+    position: fixed;
+    bottom: 45%;
+    left: 35%;
+}

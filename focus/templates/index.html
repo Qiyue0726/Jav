@@ -16,7 +16,7 @@
 <body>
 <div id="l_body">
     <div id="safearea">
-        <div class="body-wrapper" id="pjax-container" style="max-width: 1425px;">
+        <div class="body-wrapper" id="pjax-container" style="max-width: 1440px;">
             <div class="l_main">
                 <section class="post-list">
                     {% for video in videos %}
@@ -48,7 +48,7 @@
 
                                     <div>
                                         <a class="readmore"
-                                           href="{{ javUrl }}/vl_star.php?s={{ video.actorId }}">
+                                           href="{{ javUrl }}/vl_star.php?s={{ video.actorId }}" target="_blank">
                                             查看更多
                                         </a>
                                     </div>
@@ -74,9 +74,24 @@
                     </div>
                 </section>
 {#            </div>#}
+            <section class="widget tagcloud shadow floatable desktop mobile popup" >
+                <header>
+                    <a href="/blog/tags/" data-pjax-state=""><i class="fa fa-venus-double"
+                                                                aria-hidden="true"></i><span
+                            class="name">关注列表</span></a>
+                </header>
+
+                <div class="content">
+                    {% for video in videos %}
+                        <a href="#{{ video.actorId }}" style="font-size: 17.33px; color: #828282" data-pjax-state="">{{ video.actorName }}</a>
+                    {% endfor %}
+                </div>
+            </section>
         </div>
     </div>
 </div>
+
+
 
 </div>
 
