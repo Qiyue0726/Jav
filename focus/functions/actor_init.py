@@ -9,7 +9,7 @@ javUrl = SysOptions.objects.get(option_key='domain').option_value
 def getActor():
 
     codes = list(map(chr, range(65, 91)))
-    # codes = ['N',"O"]
+    # codes = ['L',"X"]
     for code in codes:
         actors=[]
         url = javUrl + "/star_list.php?prefix="+code

@@ -10,13 +10,15 @@
 
 
     <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'layui/css/layui.css' %}">
     <link rel="stylesheet" href="{% static 'style.css' %}">
+
 
 </head>
 <body>
 <div id="l_body">
     <div id="safearea">
-        <div class="body-wrapper" id="pjax-container" style="max-width: 1425px;">
+        <div class="body-wrapper" id="pjax-container" style="max-width: 1440px;">
             <div class="l_main">
                 <section class="post-list">
                     {% for video in videos %}
@@ -48,7 +50,7 @@
 
                                     <div>
                                         <a class="readmore"
-                                           href="{{ javUrl }}/vl_star.php?s={{ video.actorId }}">
+                                           href="{{ javUrl }}/vl_star.php?s={{ video.actorId }}" target="_blank">
                                             查看更多
                                         </a>
                                     </div>
@@ -62,8 +64,8 @@
 {#            <div class="l_side">#}
                 <section class="widget tagcloud shadow floatable desktop mobile float-bar" >
                     <header>
-                        <a href="/blog/tags/" data-pjax-state=""><i class="fa fa-venus-double"
-                                                                    aria-hidden="true"></i><span
+                        <a href="javascript:void (0);" onclick="focusPop()">
+                            <i class="fa fa-venus-double" aria-hidden="true"></i><span
                                 class="name">关注列表</span></a>
                     </header>
 
@@ -74,12 +76,226 @@
                     </div>
                 </section>
 {#            </div>#}
+
         </div>
     </div>
 </div>
 
-</div>
+
+<script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'layer/layer.js' %}"></script>
+<script src="{% static 'layui/layui.js' %}"></script>
+<script src="{% static 'axios.min.js' %}"></script>
+<script>
+
+    var bar = `<div id="container">
+
+                    <div class="search bar6">
+                        <form>
+                            <input id="searchInput" type="text" placeholder="快乐从这里开始..." name="actor" onkeydown="keyup_submit(event);">
+{#                            只有一个input会自动提交#}
+                            <input type="text" id="hiddenText" name="hiddenText" style="display:none" />
+                            <button id="searchBtn" type="button" style="height:42px;
+                                width:65px;
+                                cursor:pointer;
+                                position:absolute;" onclick="searchActor()"></button>
+                        </form>
+                    </div>
+               </div>
+               <div style="text-align: center">
+                    <div id="transferBox"></div>
+               </div>
+               <div id="pageBar" style="text-align: center;
+                    width: 250px;
+                    margin-left: 23px;"></div>
+               `
+
+    var actors;
+    var focusActors;
+
+    function focusPop(){
+        layui.use('layer', function(){
+            var layer = layui.layer;
+            layer.open({
+                type: 1,
+                title: '<i class="fa fa-venus-double" aria-hidden="true"></i><span>&nbsp;添加优优</span>',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['650px', '650px'], //宽高
+                closeBtn: 0,
+                shadeClose: true,
+                content: bar,
+                success: function(layero, index){
+                    transferList()
+                }
+            });
+        });
+
+    }
+    function transferList(){
+        axios.get('/focus/transferList',
+            {
+                params: {
+                    'pageNo':1,
+                    'pageSize':50
+                }
+            })
+            .then((res) =>{
+                actors = res.data.actors;
+                focusActors = res.data.focusActors;
+
+                // 穿梭框
+                reloadTransfer(actors,focusActors)
+
+                // 分页
+                pageTransfer(res.data.count,'')
+
+            }).catch(function (error) {
+                console.log(error)
+            })
+
+    }
+
+    function addFocus(stars){
+        axios.post('/focus/addActor',
+            {
+                actors: stars
+            })
+            .then(function (response) {
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.msg(response.data.msg);
+                    if (response.data.status == 1){
+
+                    }
+                });
+            })
+    }
+
+    function delFocus(stars){
+        axios.post('/focus/delActor',
+            {
+                actors: stars
+            })
+            .then(function (response) {
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    layer.msg(response.data.msg);
+                    if (response.data.status == 1){
+
+                    }
+                });
+            })
+    }
+
+    function keyup_submit(e){
+        var evt = window.event || e;
+        if (evt.keyCode == 13){
+            searchActor()
+            }
+        }
+
+    function searchActor() {
+
+        axios.get('/focus/transferList',
+            {params: {
+                    'star': $('#searchInput').val(),
+                    'pageNo':1,
+                    'pageSize':50
+                }
+            })
+            .then((res) =>{
+                actors = res.data.actors;
+                focusActors = res.data.focusActors;
+                reloadTransfer(actors,focusActors)
+                // 分页
+                pageTransfer(res.data.count,$('#searchInput').val())
+            }).catch(function (error) {
+                console.log(error)
+        })
+    }
+
+    // 刷新穿梭框
+    function reloadTransfer(actors,focusActors){
+        layui.use('transfer', function(){
+            var transfer = layui.transfer;
+            //渲染
+            transfer.render({
+                elem: '#transferBox',  //绑定元素
+                data: actors,
+                parseData: function(actor){
+                    return {
+                        "value": actor.actor_id //数据值
+                        ,"title": actor.actor_name //数据标题
+                        {#,"disabled": res.disabled  //是否禁用#}
+                        {#,"checked": res.checked //是否选中#}
+                    }
+                },
+                value: focusActors,
+                title: ['未关注','已关注'],
+                width:250,
+                height:425,
+                id: 'demo1', //定义索引
+                showSearch: true,
+                text: {
+                    none: '无数据' //没有数据时的文案
+                    ,searchNone: '无匹配数据' //搜索无匹配数据时的文案
+                },
+                onchange: function(obj, index){
+
+                    if (index == 0){
+                        // 添加
+                        addFocus(JSON.stringify(obj))
+                    }else{
+                        // 删除
+                        delFocus(JSON.stringify(obj))
+                    }
+                }
+            });
+        });
+    }
+
+    function pageTransfer(count,star) {
+        layui.use('laypage', function(){
+            var laypage = layui.laypage;
+
+            //执行一个laypage实例
+            laypage.render({
+                elem: 'pageBar', //注意，这里的 test1 是 ID，不用加 # 号
+                count: count, //数据总数，从服务端得到
+                limit: 50,
+                limits: [10, 20, 30, 40, 50, 100],
+                groups: 3,
+                layout: ['limit', 'prev', 'next', 'count', 'skip'],
+                jump: function(obj, first){
+                    //obj包含了当前分页的所有参数，比如：
+                    {#console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。#}
+                    {#console.log(obj.limit); //得到每页显示的条数#}
+
+                    //首次不执行
+                    if(!first){
+                        //do something
+                        axios.get('/focus/transferList',
+                            {
+                                params: {
+                                    'star':star,
+                                    'pageNo':obj.curr,
+                                    'pageSize':obj.limit
+                                }
+                            })
+                            .then((res)=>{
+                                actors = res.data.actors;
+                                focusActors = res.data.focusActors;
+                                reloadTransfer(actors,focusActors);
+                            })
+                    }
 
 
+                }
+            });
+        });
+    }
+
+
+</script>
 </body>
 </html>
