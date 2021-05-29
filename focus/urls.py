@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.urls import path
 
-from fucos import views
+from focus import views
+from focus.views import actor
 
 urlpatterns = [
+    path('actor/', actor),
 ]

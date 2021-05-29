@@ -5193,7 +5193,7 @@ footer.footer .copyright p {
     position: relative;
     display: flex;
     width: 100%;
-    /*max-width: 1080px;*/
+    max-width: 1080px;
     margin: 0 auto;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -7121,7 +7121,7 @@ ul.list-v >li>a:hover {
     margin-inline: 15px;
     margin-top: 10px;
     background-color: rgb(255, 231, 211);
-    height: 270px;
+    height: 285px;
 }
 .title {
     font-size: 12px;
@@ -7129,4 +7129,11 @@ ul.list-v >li>a:hover {
     padding: 5px;
     height: 3.5em;
     overflow: hidden;
+}
+.float-bar {
+    width: 240px;
+    height: 300px;
+    position: fixed;
+    bottom: 45%;
+    right: 2%;
 }

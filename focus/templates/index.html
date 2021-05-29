@@ -1,0 +1,85 @@
+{% load static %}
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>JAV Focus</title>
+
+
+    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+</head>
+<body>
+<div id="l_body">
+    <div id="safearea">
+        <div class="body-wrapper" id="pjax-container" style="max-width: 1425px;">
+            <div class="l_main">
+                <section class="post-list">
+                    {% for video in videos %}
+                        <div class="post-wrapper" id="{{ video.actorId }}">
+                            <div class="post post-v3 white-box reveal shadow floatable" >
+                                {% for v in video.videos %}
+                                    <div style="text-align: center;display: inline-block;">
+                                        <div class="col">
+                                            <a href="{{ v.href }}" title="{{ v.title }}" target="_blank"
+                                               style="text-decoration: none">
+                                                <div style="height: 1.3em;margin: 3px">
+                                                    {{ v.code }}
+                                                </div>
+                                                <img src="{{ v.cover }}"
+                                                     width="147px" height="200px">
+                                                <div class="title">
+                                                    {{ v.title }}
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="meta-v3" line_style="solid">
+                                    <div>
+                                        <time>{{ video.actorName }}</time>
+                                    </div>
+
+
+                                    <div>
+                                        <a class="readmore"
+                                           href="{{ javUrl }}/vl_star.php?s={{ video.actorId }}">
+                                            查看更多
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </section>
+            </div>
+
+{#            <div class="l_side">#}
+                <section class="widget tagcloud shadow floatable desktop mobile float-bar" >
+                    <header>
+                        <a href="/blog/tags/" data-pjax-state=""><i class="fa fa-venus-double"
+                                                                    aria-hidden="true"></i><span
+                                class="name">关注列表</span></a>
+                    </header>
+
+                    <div class="content">
+                        {% for video in videos %}
+                            <a href="#{{ video.actorId }}" style="font-size: 17.33px; color: #828282" data-pjax-state="">{{ video.actorName }}</a>
+                        {% endfor %}
+                    </div>
+                </section>
+{#            </div>#}
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+</body>
+</html>

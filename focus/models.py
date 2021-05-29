@@ -8,10 +8,12 @@
 from django.db import models
 
 class FocusActor(models.Model):
-    id = models.IntegerField(primary_key=True)
     actor_id = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     sort_no = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return '{} - {}'.format(self.actor_id,self.name)
 
     class Meta:
         managed = False
@@ -19,11 +21,26 @@ class FocusActor(models.Model):
 
 
 class SysOptions(models.Model):
-    id = models.IntegerField(primary_key=True)
     option_key = models.CharField(max_length=30)
     option_value = models.CharField(max_length=200, blank=True, null=True)
     comment = models.CharField(max_length=500, blank=True, null=True)
 
+    def __str__(self):
+        return '%s: %s' % (self.comment,self.option_value)
+
     class Meta:
         managed = False
         db_table = 'sys_options'
+
+
+class Actor(models.Model):
+    actor_id = models.CharField(max_length=50)
+    actor_name = models.CharField(max_length=100)
+    letter = models.CharField(max_length=5, blank=True, null=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.actor_id,self.actor_name)
+
+    class Meta:
+        managed = False
+        db_table = 'actor'
