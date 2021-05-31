@@ -15,10 +15,27 @@ from focus.models import *
 javUrl = SysOptions.objects.get(option_key='domain').option_value
 
 def index(request):
-    videos = getVideos()
-    # print(videos)
-    showNum = int(SysOptions.objects.get(option_key='showNum').option_value)
-    return render(request,'index.html',{'videos':videos,'showNum':showNum,'javUrl':javUrl})
+    stars = list(FocusActor.objects.values().all())
+    # 第一次打开
+    if request.GET.get('page') is None:
+        res = getVideos(stars, 1)
+        videos = res.get('videoList')
+        pageNum = res.get('pageNum')
+        showNum = int(SysOptions.objects.get(option_key='showNum').option_value)
+        focusList = list()
+        for star in stars:
+            focusList.append(
+                {
+                    'actorId':star.get('actor_id'),
+                    'actorName': star.get('name')
+                }
+            )
+        return render(request,'index.html',{'videos':videos,'showNum':showNum,'javUrl':javUrl, 'pageNum': pageNum, 'focusList': focusList})
+    else:
+        videos = getVideos(stars,request.GET.get('page')).get('videoList')
+        showNum = int(SysOptions.objects.get(option_key='showNum').option_value)
+        return render(request,'box.html',{'videos':videos,'showNum':showNum,'javUrl':javUrl})
+
 
 def actor(request):
     getActor()

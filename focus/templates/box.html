@@ -1,0 +1,37 @@
+{% for video in videos %}
+    <div class="post-wrapper" id="{{ video.actorId }}">
+        <div class="post post-v3 white-box reveal shadow floatable" >
+            {% for v in video.videos %}
+                <div style="text-align: center;display: inline-block;">
+                    <div class="col">
+                        <a href="{{ v.href }}" title="{{ v.title }}" target="_blank"
+                           style="text-decoration: none">
+                            <div style="height: 1.3em;margin: 3px">
+                                {{ v.code }}
+                            </div>
+                            <img src="{{ v.cover }}"
+                                 width="147px" height="200px">
+                            <div class="title">
+                                {{ v.title }}
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="meta-v3" line_style="solid">
+                <div>
+                    <time>{{ video.actorName }}</time>
+                </div>
+
+
+                <div>
+                    <a class="readmore"
+                       href="{{ javUrl }}/vl_star.php?s={{ video.actorId }}" target="_blank">
+                        查看更多
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

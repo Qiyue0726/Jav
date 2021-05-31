@@ -20,44 +20,8 @@
     <div id="safearea">
         <div class="body-wrapper" id="pjax-container" style="max-width: 1440px;">
             <div class="l_main">
-                <section class="post-list">
-                    {% for video in videos %}
-                        <div class="post-wrapper" id="{{ video.actorId }}">
-                            <div class="post post-v3 white-box reveal shadow floatable" >
-                                {% for v in video.videos %}
-                                    <div style="text-align: center;display: inline-block;">
-                                        <div class="col">
-                                            <a href="{{ v.href }}" title="{{ v.title }}" target="_blank"
-                                               style="text-decoration: none">
-                                                <div style="height: 1.3em;margin: 3px">
-                                                    {{ v.code }}
-                                                </div>
-                                                <img src="{{ v.cover }}"
-                                                     width="147px" height="200px">
-                                                <div class="title">
-                                                    {{ v.title }}
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-
-                                <div class="meta-v3" line_style="solid">
-                                    <div>
-                                        <time>{{ video.actorName }}</time>
-                                    </div>
-
-
-                                    <div>
-                                        <a class="readmore"
-                                           href="{{ javUrl }}/vl_star.php?s={{ video.actorId }}" target="_blank">
-                                            查看更多
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
+                <section id="box" class="post-list">
+                    {% include 'box.html' %}
                 </section>
             </div>
 
@@ -70,8 +34,8 @@
                     </header>
 
                     <div class="content">
-                        {% for video in videos %}
-                            <a href="#{{ video.actorId }}" style="font-size: 17.33px; color: #828282" data-pjax-state="">{{ video.actorName }}</a>
+                        {% for star in focusList %}
+                            <a href="#{{ star.actorId }}" style="font-size: 17.33px; color: #828282" data-pjax-state="">{{ star.actorName }}</a>
                         {% endfor %}
                     </div>
                 </section>
@@ -83,11 +47,11 @@
 
 
 <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'layer/layer.js' %}"></script>
 <script src="{% static 'layui/layui.js' %}"></script>
 <script src="{% static 'axios.min.js' %}"></script>
 <script>
 
+    var pageNum = {{ pageNum }}
     var bar = `<div id="container">
 
                     <div class="search bar6">
@@ -112,6 +76,23 @@
 
     var actors;
     var focusActors;
+
+
+    layui.use('flow', function(){
+        var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+        var flow = layui.flow;
+        flow.load({
+            elem: '#box' //指定列表容器
+            ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+                axios.get('?page='+(page+1)).then(function (response) {
+                    console.log(response);
+                    next(response.data, (page+1) < pageNum)
+                })
+                ;
+            }
+        });
+    });
+
 
     function focusPop(){
         layui.use('layer', function(){
