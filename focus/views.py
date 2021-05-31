@@ -15,7 +15,7 @@ from focus.models import *
 javUrl = SysOptions.objects.get(option_key='domain').option_value
 
 def index(request):
-    stars = list(FocusActor.objects.values().all())
+    stars = list(FocusActor.objects.values().all().order_by("sort_no"))
     # 第一次打开
     if request.GET.get('page') is None:
         res = getVideos(stars, 1)
