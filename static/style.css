@@ -7132,7 +7132,7 @@ ul.list-v >li>a:hover {
 }
 .float-bar {
     width: 250px;
-    height: 300px;
+    min-height: 300px;
     position: fixed;
     bottom: 45%;
     right: 8%;
