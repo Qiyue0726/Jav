@@ -7131,11 +7131,11 @@ ul.list-v >li>a:hover {
     overflow: hidden;
 }
 .float-bar {
-    width: 240px;
+    width: 250px;
     height: 300px;
     position: fixed;
     bottom: 45%;
-    right: 2%;
+    right: 8%;
 }
 
 /*搜索框*/

@@ -35,7 +35,7 @@
 
                     <div class="content">
                         {% for star in focusList %}
-                            <a href="#{{ star.actorId }}" style="font-size: 17.33px; color: #828282" data-pjax-state="">{{ star.actorName }}</a>
+                            <a href="#{{ star.actorId }}" style="font-size: 17px; padding: 5px; color: #828282" data-pjax-state="">{{ star.actorName }}</a>
                         {% endfor %}
                     </div>
                 </section>
@@ -107,6 +107,9 @@
                 content: bar,
                 success: function(layero, index){
                     transferList()
+                },
+                end: function(layero, index){
+                    location.reload();
                 }
             });
         });
