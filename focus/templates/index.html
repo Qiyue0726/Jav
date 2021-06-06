@@ -43,8 +43,9 @@
 
         </div>
     </div>
-</div>
+    <a id="s-top" class="fa fa-arrow-up fa-fw show" onclick="to_top()" href="javascript:void(0)" style="margin-right: 15%;display: none"></a>
 
+</div>
 
 <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'layui/layui.js' %}"></script>
@@ -78,6 +79,12 @@
     var focusActors;
 
 
+    function to_top() {
+        scrollTo(0,0);
+    }
+
+
+
     layui.use('flow', function(){
         var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
         var flow = layui.flow;
@@ -85,7 +92,7 @@
             elem: '#box' //指定列表容器
             ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
                 axios.get('?page='+(page+1)).then(function (response) {
-                    console.log(response);
+                    {#console.log(response);#}
                     next(response.data, (page+1) < pageNum)
                 })
                 ;
