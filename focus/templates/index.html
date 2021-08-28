@@ -79,8 +79,18 @@
     var focusActors;
 
 
+    var timer  = null;
     function to_top() {
-        scrollTo(0,0);
+        cancelAnimationFrame(timer);
+        timer = requestAnimationFrame(function fn(){
+            var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+            if(oTop > 0){
+                scrollBy(0,-200);
+                timer = requestAnimationFrame(fn);
+            }else{
+                cancelAnimationFrame(timer);
+            }
+        });
     }
 
 
