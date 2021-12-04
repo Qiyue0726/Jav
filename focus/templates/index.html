@@ -25,7 +25,6 @@
                 </section>
             </div>
 
-{#            <div class="l_side">#}
             <aside class="l_side">
                 <section class="widget tagcloud shadow floatable desktop mobile" >
                     <header>
@@ -40,12 +39,12 @@
                         {% endfor %}
                     </div>
                 </section>
+                <a id="s-top" class="fa fa-arrow-up fa-fw show" onclick="to_top()" href="javascript:void(0)"></a>
+
             </aside>
-{#            </div>#}
 
         </div>
     </div>
-    <a id="s-top" class="fa fa-arrow-up fa-fw show" onclick="to_top()" href="javascript:void(0)" style="margin-right: 15%;"></a>
 
 </div>
 
@@ -87,7 +86,7 @@
         timer = requestAnimationFrame(function fn(){
             var oTop = document.body.scrollTop || document.documentElement.scrollTop;
             if(oTop > 0){
-                scrollBy(0,-200);
+                scrollBy(0,-100);
                 timer = requestAnimationFrame(fn);
             }else{
                 cancelAnimationFrame(timer);
