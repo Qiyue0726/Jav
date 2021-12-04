@@ -24,7 +24,7 @@ def getVideos(stars, pageNo):
                 "id": v['id'][4:],
                 "href": javUrl + v.a['href'][1:],
                 "code": v.div.string,
-                "cover": "http:" + v.img['src'],
+                "cover": v.img['src'],
                 "imgHeight": v.img['height'],
                 "imgWidth": v.img['width'],
                 "title": v.find("div", attrs={"class":"title"}).string,

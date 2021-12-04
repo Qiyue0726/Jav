@@ -7134,8 +7134,9 @@ ul.list-v >li>a:hover {
     width: 250px;
     min-height: 300px;
     position: fixed;
-    bottom: 45%;
+    bottom: 40%;
     right: 8%;
+    top: 2%;
 }
 
 /*搜索框*/
