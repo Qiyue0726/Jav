@@ -8,7 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 
 # Create your views here.
-from focus.functions.actor_init import getActor, increActor
+from focus.functions.actor_init import getActor, increActor, flash
 from focus.functions.resource import getVideos
 from focus.models import *
 
@@ -94,3 +94,12 @@ def delActor(request):
     else:
         return JsonResponse({'msg':'请使用POST请求'})
 
+def flashActorList(request):
+    if request.method == 'POST': 
+        try:
+            flash()
+            return JsonResponse({'msg':'更新成功','status':0})
+        except:
+            return JsonResponse({'msg':'更新失败','status':0})
+    else:
+        return JsonResponse({'msg':'请使用POST请求'})

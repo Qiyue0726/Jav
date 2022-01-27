@@ -56,7 +56,6 @@
 
     var pageNum = {{ pageNum }}
     var bar = `<div id="container">
-
                     <div class="search bar6">
                         <form>
                             <input id="searchInput" type="text" placeholder="快乐从这里开始..." name="actor" onkeydown="keyup_submit(event);">
@@ -70,6 +69,7 @@
                     </div>
                </div>
                <div style="text-align: center">
+                    <div><i class='fa fa-refresh'  style='position: absolute;z-index: 9999999;left: 115px;top: 75px;color: red;' onclick="flush()"></i></div>
                     <div id="transferBox"></div>
                </div>
                <div id="pageBar" style="text-align: center;
@@ -297,6 +297,20 @@
             });
         });
     }
+
+    function flush() {
+        layer.confirm('后台将进行更新，可能需要较长时间，确定更新数据库？', {icon: 3, title:'更新女优数据库'}, function(index){
+            layer.close(index);
+            layer.load(2);
+            axios.post('/focus/flashActorList')
+            .then(function (response) {
+                layer.close(3);
+                layer.msg(response.data.msg);
+                layer.close(1);
+            })
+        });
+    }
+
 
 
 </script>

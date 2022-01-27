@@ -13,7 +13,7 @@ class FocusActor(models.Model):
     sort_no = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return '{} - {}'.format(self.actor_id,self.name)
+        return '{} - {} - {}'.format(self.actor_id,self.name,self.sort_no)
 
     class Meta:
         managed = False
